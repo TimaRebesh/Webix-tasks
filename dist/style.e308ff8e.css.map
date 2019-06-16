@@ -1,0 +1,1 @@
+{"version":3,"sources":["style.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA","file":"style.e308ff8e.css","sourceRoot":"..","sourcesContent":[".list_bgc {\n    background-color: #eee;\n    \n}\n.webix_secondary.bluebutton .webix_button{\n    background-color:#59bacb;\n    color:#ffffff;\n}\n.webix_list_item {\n    border-color: #eee;\n}"]}
