@@ -117,8 +117,8 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"data/users.js":[function(require,module,exports) {
-window.usersData = JSON.parse("[\n\t{ \"id\":1, \"name\":\"Alan Smith\", \"age\":57, \"country\":\"USA\"},\n\t{ \"id\":2, \"name\":\"Nina Brown\", \"age\":32, \"country\":\"Germany\"},\n\t{ \"id\":3, \"name\":\"Kevin Sallivan\", \"age\":21, \"country\":\"Canada\"},\n\t{ \"id\":4, \"name\":\"Sergey Petrov\", \"age\":24, \"country\":\"Russia\"},\n\t{ \"id\":5, \"name\":\"Mina Leen\", \"age\":40, \"country\":\"China\"},\n\t{ \"id\":6, \"name\":\"Sam White\", \"age\":26, \"country\":\"USA\"},\n\t{ \"id\":7, \"name\":\"Peter Olsten\", \"age\":40, \"country\":\"France\"},\n\t{ \"id\":8, \"name\":\"Lina Rein\", \"age\":30, \"country\":\"Germany\"},\n\t{ \"id\":9, \"name\":\"Many Cute\", \"age\":22, \"country\":\"Canada\"},\n\t{ \"id\":10, \"name\":\"Andrew Wein\", \"age\":27, \"country\":\"Italy\"},\n\t{ \"id\":11, \"name\":\"Paolo Sanders\", \"age\":40, \"country\":\"Spain\"},\n\t{ \"id\":12, \"name\":\"Tanya Krieg\", \"age\":28, \"country\":\"Germany\"}\n]");
+})({"data/products.js":[function(require,module,exports) {
+window.productsData = JSON.parse("[\n\t{ \"id\":\"1\", \"title\":\"Cinema\",\"open\":true, \"price\": \"\", \"data\":[\n\t\t{ \"id\":\"1.1\", \"title\":\"Standard Ticket\", \"price\": 21},\n\t\t{ \"id\":\"1.2\", \"title\":\"Evening Ticket\", \"price\": 27}\n\t]},\n\t{ \"id\":\"2\", \"title\":\"Cafe\",\"open\":true, \"price\": \"\", \"data\":[\n\t\t{ \"id\":\"2.1\", \"title\":\"Cola\", \"price\": 10},\n\t\t{ \"id\":\"2.2\", \"title\":\"Mineral water\", \"price\": 5},\n\t\t{ \"id\":\"2.3\", \"title\":\"Pop Corn\", \"price\": 7}\n\t]},\n\t{ \"id\":\"3\", \"title\":\"Other\",\"open\":true, \"price\": \"\", \"data\":[\n\t\t{ \"id\":\"3.1\", \"title\":\"Flowers\", \"price\": 10},\n\t\t{ \"id\":\"3.2\", \"title\":\"Film CD\", \"price\": 15}\n\t]}\n]");
 },{}],"../../../../.npm-global/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -322,5 +322,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../.npm-global/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","data/users.js"], null)
-//# sourceMappingURL=/users.3753b8f6.js.map
+},{}]},{},["../../../../.npm-global/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","data/products.js"], null)
+//# sourceMappingURL=/products.cde6acb8.js.map

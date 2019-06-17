@@ -118,14 +118,6 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"script.js":[function(require,module,exports) {
-/*const info = [
-    { id:1, title:"The Shawshank Redemption", year:1994, votes:678790, rating:9.2, rank:1},
-    { id:2, title:"The Godfather", year:1972, votes:511495, rating:9.2, rank:2},
-    { id:3, title:"The Godfather: Part II", year:1974, votes:319352, rating:9, rank:3},
-    { id:4, title:"The Good, the Bad and the Ugly", year:1966, votes:213020, rating:8.9, rank:4},
-    { id:5, title:"My Fair Lady", year:1964, votes:533848, rating:8.9, rank:5},
-    { id:6, title:"12 Angry Men", year:1957, votes:164558, rating:8.9,rank:6}       
-];*/
 var topbar = {
   view: "toolbar",
   css: "webix_dark",
@@ -181,6 +173,7 @@ var winPopup = webix.ui({
 var dataTable = {
   view: "datatable",
   id: "tableInfo",
+  select: true,
   columns: [{
     id: "rank",
     header: "",
@@ -189,22 +182,34 @@ var dataTable = {
   }, {
     id: "title",
     header: "Film title",
-    template: "<strong>#title#</strong>",
-    width: 200
+    template: "#title#",
+    width: 400
   }, {
     id: "year",
     header: "Released",
     template: "#year#",
     width: 80
+  }, {
+    id: "votes",
+    header: "Votes",
+    template: "#votes#"
+  }, {
+    template: "{common.trashIcon()}"
   }],
-  autoheight: true,
   autowidth: true,
   autoConfig: true,
   scrollX: false,
-  //columnWidth:70,
-  data: window.testData
-}; //$$("tableInfo").parse(data);
+  hover: "myhover",
+  onClick: {
+    "wxi-trash": function wxiTrash(e, id) {
+      this.remove(id);
+      return false;
+    }
+  },
+  columnWidth: 70,
+  data: window.testData //url:"data/data.js",
 
+};
 var myFormRight = {
   view: "form",
   id: "myform",
@@ -277,38 +282,78 @@ var myFormRight = {
 };
 var thisYear = new Date().getFullYear();
 var usersList = {
-  view: "list",
-  id: "",
-  width: 200,
-  select: true,
-  scroll: false //data:          // webix creates id for names automatically
-
+  rows: [{
+    height: 35,
+    view: "toolbar",
+    elements: [{
+      view: "text",
+      id: "list_input",
+      label: ""
+    }, {
+      view: "button",
+      value: "Sort asc",
+      width: 100,
+      css: "webix_primary"
+    }, {
+      view: "button",
+      value: "Sort desc",
+      width: 100,
+      css: "webix_primary"
+    }]
+  }, {
+    view: "list",
+    id: "myUsersList",
+    template: "#name# from #country# <span class='removeBtn'>X</span>",
+    select: true,
+    scroll: true,
+    data: window.usersData,
+    onClick: {
+      removeBtn: function removeBtn(e, id) {
+        this.remove(id);
+        return false;
+      }
+    },
+    scheme: {
+      $init: function $init(obj) {
+        if (obj.id <= 5) obj.$css = "green";
+      }
+    }
+  }]
 };
 var usersChart = {
   view: "chart",
   type: "bar",
-  value: "#sales#",
-  label: "#sales#",
-  barWidth: 35,
-  radius: 0,
-  gradient: "falling",
-  data: [{
-    id: 1,
-    sales: 20,
-    year: "02"
+  value: "#age#",
+  xAxis: {
+    template: "#age#"
+  },
+  data: window.usersData
+};
+var ProductsView = {
+  view: "treetable",
+  columns: [{
+    id: "id",
+    header: "",
+    css: {
+      "text-align": "right"
+    },
+    width: 50
   }, {
-    id: 2,
-    sales: 55,
-    year: "03"
+    id: "title",
+    header: "Title",
+    width: 250,
+    template: "{common.treetable()} #title#"
   }, {
-    id: 3,
-    sales: 40,
-    year: "04"
-  }, {
-    id: 4,
-    sales: 78,
-    year: "05"
-  }]
+    id: "price",
+    header: "Price",
+    template: "#price#",
+    width: 250
+  }],
+  autowidth: true,
+  autoConfig: true,
+  scrollX: false,
+  select: true,
+  data: window.productsData
 };
 var main = {
   cells: [{
@@ -319,7 +364,7 @@ var main = {
     rows: [usersList, usersChart]
   }, {
     id: "Products",
-    template: "Products view"
+    rows: [ProductsView]
   }, {
     id: "Admin",
     template: "Admin view"
@@ -341,6 +386,14 @@ webix.ui({
   }, bottombar]
 });
 $$("mylist").select("Dashboard"); // when loading this is the first display
+
+$$('tableInfo').sort("#year#");
+$$("list_input").attachEvent("onTimedKeyPress", function () {
+  var value = this.getValue().toLowerCase();
+  $$("myUsersList").filter(function (obj) {
+    return obj.name.toLowerCase().indexOf(value) == 0;
+  });
+});
 },{}],"../../../../.npm-global/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

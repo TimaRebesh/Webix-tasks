@@ -9,5 +9,26 @@
 .webix_list_item {
     border-color: #eee;
 }
+.rank .webix_cell, .rank.webix_hcell {
+    text-align:center;
+    background-color: #F4F5F9;
+   
+}
+.removeBtn{
+    width:100px;
+    text-align: right;
+    float:right;
+    background-color: transparent;
+    color:#000000;
+  }
+  .myhover.webix_cell{
+    background: rgb(244, 250, 125);
+}
+.green{
+    background-color:lightgreen;
+}
+/*.webix_column {
+    border: 1px solid #DADEE0;
+}*/
 
 /*# sourceMappingURL=/style.e308ff8e.css.map */
