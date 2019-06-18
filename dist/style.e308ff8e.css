@@ -25,7 +25,10 @@
     background: rgb(244, 250, 125);
 }
 .green{
-    background-color:lightgreen;
+    background-color:rgb(238, 227, 144);
+}
+.segbgc{
+    background-color: transparent;
 }
 /*.webix_column {
     border: 1px solid #DADEE0;

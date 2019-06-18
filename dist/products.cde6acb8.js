@@ -118,7 +118,53 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"data/products.js":[function(require,module,exports) {
-window.productsData = JSON.parse("[\n\t{ \"id\":\"1\", \"title\":\"Cinema\",\"open\":true, \"price\": \"\", \"data\":[\n\t\t{ \"id\":\"1.1\", \"title\":\"Standard Ticket\", \"price\": 21},\n\t\t{ \"id\":\"1.2\", \"title\":\"Evening Ticket\", \"price\": 27}\n\t]},\n\t{ \"id\":\"2\", \"title\":\"Cafe\",\"open\":true, \"price\": \"\", \"data\":[\n\t\t{ \"id\":\"2.1\", \"title\":\"Cola\", \"price\": 10},\n\t\t{ \"id\":\"2.2\", \"title\":\"Mineral water\", \"price\": 5},\n\t\t{ \"id\":\"2.3\", \"title\":\"Pop Corn\", \"price\": 7}\n\t]},\n\t{ \"id\":\"3\", \"title\":\"Other\",\"open\":true, \"price\": \"\", \"data\":[\n\t\t{ \"id\":\"3.1\", \"title\":\"Flowers\", \"price\": 10},\n\t\t{ \"id\":\"3.2\", \"title\":\"Film CD\", \"price\": 15}\n\t]}\n]");
+[{
+  "id": "1",
+  "title": "Cinema",
+  "open": true,
+  "price": "",
+  "data": [{
+    "id": "1.1",
+    "title": "Standard Ticket",
+    "price": 21
+  }, {
+    "id": "1.2",
+    "title": "Evening Ticket",
+    "price": 27
+  }]
+}, {
+  "id": "2",
+  "title": "Cafe",
+  "open": true,
+  "price": "",
+  "data": [{
+    "id": "2.1",
+    "title": "Cola",
+    "price": 10
+  }, {
+    "id": "2.2",
+    "title": "Mineral water",
+    "price": 5
+  }, {
+    "id": "2.3",
+    "title": "Pop Corn",
+    "price": 7
+  }]
+}, {
+  "id": "3",
+  "title": "Other",
+  "open": true,
+  "price": "",
+  "data": [{
+    "id": "3.1",
+    "title": "Flowers",
+    "price": 10
+  }, {
+    "id": "3.2",
+    "title": "Film CD",
+    "price": 15
+  }]
+}];
 },{}],"../../../../.npm-global/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -147,7 +193,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61386" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59532" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -1,4 +1,4 @@
-window.productsData = JSON.parse(`[
+[
 	{ "id":"1", "title":"Cinema","open":true, "price": "", "data":[
 		{ "id":"1.1", "title":"Standard Ticket", "price": 21},
 		{ "id":"1.2", "title":"Evening Ticket", "price": 27}
@@ -12,4 +12,4 @@ window.productsData = JSON.parse(`[
 		{ "id":"3.1", "title":"Flowers", "price": 10},
 		{ "id":"3.2", "title":"Film CD", "price": 15}
 	]}
-]`);
+]
