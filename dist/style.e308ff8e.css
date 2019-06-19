@@ -1,7 +1,17 @@
 .list_bgc {
-    background-color: #eee;
-    
+    background-color: #eee;   
 }
+
+.greenbutton {
+    text-align: center;
+    background-color: #eee;
+    color: #00b306;
+    border-color: #eee;
+}
+.webix_icon .wxi-check {
+    color: #00b306 !important; 
+}
+
 .webix_secondary.bluebutton .webix_button{
     background-color:#59bacb;
     color:#ffffff;
@@ -14,24 +24,27 @@
     background-color: #F4F5F9;
    
 }
-.removeBtn{
-    width:100px;
-    text-align: right;
-    float:right;
-    background-color: transparent;
-    color:#000000;
-  }
+
   .myhover.webix_cell{
     background: rgb(244, 250, 125);
 }
 .green{
     background-color:rgb(238, 227, 144);
 }
-.segbgc{
-    background-color: transparent;
+.remove-icon {
+    color: #212121;
+    opacity: 0.5;
+    float: right;
+    margin-top: 8px;
+    font-size: 17px !important;
 }
-/*.webix_column {
-    border: 1px solid #DADEE0;
-}*/
+
+.remove-icon:hover {
+    opacity: 1;
+}
+
+.webix_selected .remove-icon:hover {
+    color: #212121;
+}
 
 /*# sourceMappingURL=/style.e308ff8e.css.map */

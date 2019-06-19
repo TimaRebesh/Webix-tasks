@@ -118,383 +118,441 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"script.js":[function(require,module,exports) {
-var _ref;
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var topbar = {
-  view: "toolbar",
-  css: "webix_dark",
-  elements: [{
-    view: "label",
-    label: "My App",
-    css: "top_label"
-  }, {}, {
-    view: "button",
-    id: "butHed",
-    label: "Profile",
-    css: "webix_transparent",
-    type: "icon",
-    icon: "wxi-user",
-    width: 150,
-    click: function click() {
-      winPopup.show(this.$view);
-    }
-  }]
-};
-var side = {
-  view: "list",
-  id: "mylist",
-  width: 200,
-  select: true,
-  scroll: false,
-  css: "list_bgc",
-  on: {
-    onAfterSelect: function onAfterSelect(id) {
-      $$(id).show();
-    }
-  },
-  data: ["Dashboard", "Users", "Products", "Admin"] // webix creates id for names automatically
-
-};
-var winPopup = webix.ui({
-  view: "popup",
-  body: {
-    view: "list",
-    template: "#title#",
-    select: true,
-    autoheight: true,
-    autowidth: true,
-    data: [{
-      id: 1,
-      title: "Settings"
-    }, {
-      id: 2,
-      title: "Log Out"
-    }]
-  }
+var collectionCategories = new webix.DataCollection({
+  url: "extra-js/categories.js"
 });
-var options = "extra-js/categories.js";
-var dataTable = {
-  rows: [{
-    view: "segmented",
-    css: "segbgc",
-    id: "segSelec",
-    inputWidth: 600,
-    options: [{
-      id: 1,
-      value: "All",
-      width: 150
-    }, {
-      id: 2,
-      value: "Old"
-    }, {
-      id: 3,
-      value: "Modern"
-    }, {
-      id: 4,
-      value: "New"
-    }],
-    on: {
-      onChange: function onChange() {
-        $$("tableInfo").filterByAll();
-      }
-    }
-  }, {
-    view: "datatable",
-    id: "tableInfo",
-    select: true,
-    columns: [{
-      id: "rank",
-      header: "#",
-      css: "rank",
-      width: 50
-    }, {
-      id: "title",
-      header: ["Film title", {
-        content: "textFilter"
-      }],
-      template: "#title#",
-      width: 300
-    }, {
-      id: "value",
-      header: ["Category", {
-        content: "selectFilter"
-      }],
-      editor: "richselect",
-      options: options,
-      width: 80
-    }, {
-      id: "rating",
-      header: ["Rating", {
-        content: "textFilter"
-      }],
-      template: "#rating#"
-    }, {
-      id: "votes",
-      header: ["Votes", {
-        content: "textFilter"
-      }],
-      template: "#votes#"
-    }, {
-      id: "year",
-      header: "Year",
-      template: "#year#",
-      width: 80
-    }, {
-      template: "{common.trashIcon()}",
-      width: 80
-    }],
-    editable: true,
-    autowidth: true,
-    autoConfig: true,
-    scrollX: false,
-    hover: "myhover",
-    onClick: {
-      "wxi-trash": function wxiTrash(e, id) {
-        this.remove(id);
-        return false;
-      }
-    },
-    columnWidth: 70,
-    //data: window.testData
-    url: "data/data.js"
-  }]
-};
-/*
-$$("tableInfo").registerFilter(
-    $$("segSelec"), 
-    { columnId:"year", compare:function(value, filter, item){
-    if(filter == 1)  return year < 2000;
-    if (filter == 2) return year > 2000;
-    }},
-    { 
-        getValue:function(node){
-            return node.getValue();
-        },
-        setValue:function(node, value){
-            node.setValue(value);
-        }
-    }
-);
-*/
+var collectionUsers = new webix.DataCollection({
+  url: "data/users.js"
+});
+var countries = new webix.DataCollection({
+  url: "extra-js/countries.js"
+});
+webix.ready(function () {
+  var _ref, _ProductsView;
 
-var myFormRight = {
-  view: "form",
-  id: "myform",
-  width: 280,
-  rules: {
-    title: webix.rules.isNotEmpty,
-    year: webix.rules.isNumber,
-    votes: webix.rules.isNotEmpty,
-    rating: function rating(value) {
-      return value != 0;
-    }
-  },
-  elements: [{
+  var topbar = {
+    view: "toolbar",
+    css: "webix_dark",
+    elements: [{
+      view: "label",
+      label: "My App",
+      css: "top_label"
+    }, {}, {
+      view: "button",
+      id: "butHed",
+      label: "Profile",
+      css: "webix_transparent",
+      type: "icon",
+      icon: "wxi-user",
+      width: 150,
+      click: function click() {
+        winPopup.show(this.$view);
+      }
+    }]
+  };
+  var side = {
     rows: [{
-      type: "section",
-      template: "Edit films"
-    }, {
-      view: "text",
-      label: "Film Title",
-      name: "title",
-      invalidMessage: "Enter movie title"
-    }, {
-      view: "text",
-      label: "Year",
-      name: "year",
-      invalidMessage: "Enter year between 1970 and this yer"
-    }, {
-      view: "text",
-      label: "Rating",
-      name: "rating",
-      invalidMessage: "rating should not be zero"
-    }, {
-      view: "text",
-      label: "Votes",
-      name: "votes",
-      invalidMessage: "votes must be more than 10,000"
-    }, {
-      cols: [{
-        view: "button",
-        value: "Save",
-        css: "webix_primary",
-        click: function click() {
-          if ($$("myform").validate()) {
-            var item = $$("myform").getValues();
-            $$("tableInfo").add(item);
-            webix.message({
-              text: "Verification successful"
-            });
-            var form = $$('myform');
+      view: "list",
+      id: "mylist",
+      width: 200,
+      select: true,
+      scroll: false,
+      css: "list_bgc",
+      on: {
+        onAfterSelect: function onAfterSelect(id) {
+          $$(id).show();
+        }
+      },
+      data: ["Dashboard", "Users", "Products", "Admin"] // webix creates id for names automatically
 
-            if (form.isDirty()) {
-              if (!form.validate()) return false;
-              form.save();
+    }, {
+      template: "<div><span class='webix_icon wxi-check'></span>Connected</div>",
+      css: "greenbutton",
+      autoheight: true
+    }]
+  };
+  var winPopup = webix.ui({
+    view: "popup",
+    body: {
+      view: "list",
+      template: "#title#",
+      select: true,
+      autoheight: true,
+      autowidth: true,
+      data: [{
+        id: 1,
+        title: "Settings"
+      }, {
+        id: 2,
+        title: "Log Out"
+      }]
+    }
+  });
+  var dataTable = {
+    gravity: 3,
+    rows: [{
+      view: "tabbar",
+      id: "myTabbar",
+      inputWidth: 600,
+      options: [{
+        id: 1,
+        value: "All"
+      }, {
+        id: 2,
+        value: "Old"
+      }, {
+        id: 3,
+        value: "Modern"
+      }, {
+        id: 4,
+        value: "New"
+      }],
+      on: {
+        onChange: function onChange() {
+          $$("tableInfo").filterByAll();
+        }
+      }
+    }, {
+      view: "datatable",
+      id: "tableInfo",
+      select: true,
+      leftSplit: 1,
+      scrollX: true,
+      hover: "myhover",
+      columns: [{
+        id: "rank",
+        header: "#",
+        css: "rank",
+        sort: "int",
+        width: 50
+      }, {
+        id: "title",
+        header: ["Film title", {
+          content: "textFilter"
+        }],
+        sort: "string",
+        fillspace: true,
+        width: 300
+      }, {
+        id: "category",
+        header: ["Category", {
+          content: "selectFilter"
+        }],
+        editor: "richselect",
+        sort: "string",
+        options: collectionCategories
+      }, {
+        id: "rating",
+        header: ["Rating", {
+          content: "textFilter"
+        }],
+        sort: "int"
+      }, {
+        id: "votes",
+        header: ["Votes", {
+          content: "textFilter"
+        }],
+        sort: "int"
+      }, {
+        id: "year",
+        header: "Year"
+      }, {
+        template: "{common.trashIcon()}",
+        width: 80
+      }],
+      onClick: {
+        "wxi-trash": function wxiTrash(e, id) {
+          webix.confirm({
+            title: "Delete",
+            text: "Do you really want to delete this Data?",
+            callback: function callback(result) {
+              if (result) {
+                $$("tableInfo").remove(id);
+              }
             }
+          });
+          return false;
+        }
+      },
+      scheme: {
+        $init: function $init(obj) {
+          obj.category = Math.floor(Math.random() * 4 + 1);
+          obj.votes = obj.votes.replace(",", ".");
+          obj.rating = obj.rating.replace(",", ".");
+        }
+      },
+      //data: window.testData
+      url: "data/data.js"
+    }]
+  };
+  var myFormRight = {
+    view: "form",
+    id: "myform",
+    elementsConfig: {
+      bottomPadding: 30
+    },
+    elements: [{
+      rows: [{
+        type: "section",
+        template: "Edit films"
+      }, {
+        view: "text",
+        label: "Film Title",
+        name: "title",
+        invalidMessage: "Enter movie title"
+      }, {
+        view: "text",
+        label: "Year",
+        name: "year",
+        invalidMessage: "Enter the year"
+      }, {
+        view: "richselect",
+        label: "Category",
+        name: "category",
+        options: collectionCategories
+      }, {
+        view: "text",
+        label: "Rating",
+        name: "rating",
+        invalidMessage: "rating should not be zero"
+      }, {
+        view: "text",
+        label: "Votes",
+        name: "votes",
+        invalidMessage: "votes must be more than 10,000"
+      }, {
+        cols: [{
+          view: "button",
+          value: "Save",
+          css: "webix_primary",
+          align: "left",
+          click: function click() {
+            $$("myform").save();
+          }
+        }, {
+          view: "button",
+          value: "Clear",
+          click: function click() {
+            webix.confirm({
+              title: "",
+              text: "Clear this form?"
+            }).then(function () {
+              $$("myform").clear();
+              $$("myform").clearValidation();
+              $$("tableInfo").unselectAll();
+            });
+          }
+        }]
+      }]
+    }, {}],
+    rules: {
+      title: webix.rules.isNotEmpty,
+      year: function year(value) {
+        return value <= new Date().getFullYear();
+      },
+      votes: webix.rules.isNotEmpty,
+      rating: function rating(value) {
+        return value != 0;
+      }
+    }
+  };
+  webix.protoUI({
+    name: "editlist"
+  }, webix.EditAbility, webix.ui.list);
+  var usersList = {
+    rows: [{
+      height: 45,
+      view: "toolbar",
+      elements: [{
+        view: "text",
+        id: "listInput",
+        gravity: 3,
+        on: {
+          // filtering
+          onTimedKeyPress: function onTimedKeyPress() {
+            var value = $$("listInput").getValue().toLowerCase();
+            $$("myUsersList").filter(function (obj) {
+              return obj.name.toLowerCase().indexOf(value) !== -1;
+            });
           }
         }
       }, {
         view: "button",
-        value: "Clear",
+        value: "Sort asc",
+        width: 100,
+        type: "form",
         click: function click() {
-          webix.confirm({
-            title: "",
-            text: "Clear this form?"
-          }).then(function () {
-            $$("myform").clear();
-            $$("myform").clearValidation();
-          });
+          collectionUsers.sort("name", "asc");
+        }
+      }, {
+        view: "button",
+        value: "Sort desc",
+        width: 100,
+        type: "form",
+        click: function click() {
+          collectionUsers.sort("name", "desc");
+        }
+      }, {
+        view: "button",
+        value: "Add new",
+        width: 100,
+        type: "form",
+        click: function click() {
+          addNewUser();
         }
       }]
-    }]
-  }, {}]
-};
-var thisYear = new Date().getFullYear();
-webix.protoUI({
-  name: "editlist"
-}, webix.EditAbility, webix.ui.list);
-var usersList = {
-  rows: [{
-    height: 35,
-    view: "toolbar",
-    elements: [{
-      view: "text",
-      id: "list_input",
-      label: ""
-    }, {
-      view: "button",
-      value: "Sort asc",
-      width: 100,
-      css: "webix_primary"
-    }, {
-      view: "button",
-      value: "Sort desc",
-      width: 100,
-      css: "webix_primary"
-    }, {
-      view: "button",
-      value: "Add new",
-      width: 100,
-      css: "webix_primary",
-      click: function click() {
-        $$("myUsersList").add({
-          name: "New film",
-          age: "25",
-          country: "Russia"
+    }, (_ref = {
+      view: "editlist",
+      id: "myUsersList",
+      template: "#name#, #age#, from #country# <span class='webix_icon mdi mdi-close remove-icon' title='Remove'>x</span>",
+      select: true,
+      scroll: true,
+      data: collectionUsers,
+      editable: true,
+      editValue: "title",
+      editaction: "dblclick",
+      editor: "text"
+    }, _defineProperty(_ref, "editValue", "name"), _defineProperty(_ref, "rules", {
+      "name": webix.rules.isNotEmpty
+    }), _defineProperty(_ref, "onClick", {
+      "remove-icon": function removeIcon(e, id) {
+        webix.confirm({
+          title: "Delete",
+          text: "Are you sure you want to delete this data?",
+          callback: function callback(result) {
+            if (result) {
+              collectionUsers.remove(id);
+            }
+          }
         });
+        return false;
       }
-    }]
-  }, (_ref = {
-    view: "editlist",
-    id: "myUsersList",
-    template: "#name#, #age#, from #country# <span class='removeBtn'>X</span>",
-    select: true,
-    scroll: true,
-    url: "data/users.js",
-    editable: true,
-    editValue: "title",
-    editaction: "dblclick",
-    editor: "text"
-  }, _defineProperty(_ref, "editValue", "name"), _defineProperty(_ref, "rules", {
-    "name": webix.rules.isNotEmpty
-  }), _defineProperty(_ref, "onClick", {
-    removeBtn: function removeBtn(e, id) {
-      this.remove(id);
-      return false;
-    }
-  }), _defineProperty(_ref, "scheme", {
-    $init: function $init(obj) {
-      if (obj.age < 26) obj.$css = "green";
-    }
-  }), _ref)]
-};
-var usersChart = {
-  view: "chart",
-  type: "bar",
-  id: "user_chart",
-  value: "#age#",
-  xAxis: {
-    template: "#country#"
-  }
-};
-var ProductsView = {
-  view: "treetable",
-  columns: [{
-    id: "id",
-    header: "",
-    css: {
-      "text-align": "left"
+    }), _defineProperty(_ref, "scheme", {
+      $init: function $init() {
+        if (this.data.age < 26) this.data.$css = "green";
+      }
+    }), _ref)]
+  };
+  var usersChart = {
+    view: "chart",
+    type: "bar",
+    id: "user_chart",
+    xAxis: {
+      template: "#country#"
     },
-    width: 150
-  }, {
-    id: "title",
-    header: "Title",
-    width: 500,
-    editor: "text",
-    template: "{common.treetable()} #title#"
-  }, {
-    id: "price",
-    header: "Price",
-    template: "#price#",
-    editor: "text",
-    width: 250
-  }, {
-    width: 300
-  }],
-  editable: true,
-  rules: {
-    "title": webix.rules.isNotEmpty,
-    "price": webix.rules.isNumber
-  },
-  autowidth: true,
-  autoConfig: true,
-  scrollX: false,
-  select: true,
-  url: "data/products.js"
-};
-var main = {
-  cells: [{
-    id: "Dashboard",
-    cols: [dataTable, myFormRight]
-  }, {
-    id: "Users",
-    rows: [usersList, usersChart]
-  }, {
-    id: "Products",
-    rows: [ProductsView]
-  }, {
-    id: "Admin",
-    template: "Admin view"
-  }]
-};
-var bottombar = {
-  view: "label",
-  label: "The software is provided by <a href='https://webix.com' target='_blank'>https://webix.com</a>. All rights reserved (c)",
-  height: 40,
-  align: "center"
-};
-webix.ui({
-  type: "line",
-  id: "app",
-  rows: [topbar, {
-    cols: [side, {
-      view: "resizer"
-    }, main]
-  }, bottombar]
-});
-$$("mylist").select("Dashboard"); // when loading this is the first display
+    yAxis: {}
+  };
+  var ProductsView = (_ProductsView = {
+    view: "treetable",
+    columns: [{
+      id: "id",
+      header: "",
+      css: {
+        "text-align": "left"
+      },
+      width: 50
+    }, {
+      id: "title",
+      header: "Title",
+      width: 500,
+      editor: "text",
+      template: "{common.treetable()} #title#"
+    }, {
+      id: "price",
+      header: "Price",
+      template: "#price#",
+      editor: "text",
+      fillspace: true
+    }],
+    editable: true,
+    rules: {
+      "title": webix.rules.isNotEmpty,
+      "price": webix.rules.isNumber
+    },
+    autoConfig: true,
+    editaction: "dblclick",
+    select: "row",
+    scrollX: false
+  }, _defineProperty(_ProductsView, "select", true), _defineProperty(_ProductsView, "ready", function ready() {
+    this.openAll();
+  }), _defineProperty(_ProductsView, "url", "data/products.js"), _ProductsView);
 
-$$("myform").bind($$("tableInfo"));
-$$("myform").save();
-$$("user_chart").sync($$("myUsersList"));
-$$('tableInfo').sort("#year#");
-$$("list_input").attachEvent("onTimedKeyPress", function () {
-  var value = this.getValue().toLowerCase();
-  $$("myUsersList").filter(function (obj) {
-    return obj.name.toLowerCase().indexOf(value) == 0;
+  function addNewUser() {
+    countries.waitData.then(function () {
+      var arr = countries.serialize();
+      return {
+        "name": "New user",
+        "age": Math.floor(Math.random() * 100),
+        "country": arr[Math.floor(Math.random() * arr.length)].value
+      };
+    }).then(function (userData) {
+      collectionUsers.add(userData);
+    });
+  }
+
+  var main = {
+    cells: [{
+      id: "Dashboard",
+      cols: [dataTable, myFormRight]
+    }, {
+      id: "Users",
+      rows: [usersList, usersChart]
+    }, {
+      id: "Products",
+      rows: [ProductsView]
+    }, {
+      id: "Admin",
+      template: "Admin view"
+    }]
+  };
+  var bottombar = {
+    view: "label",
+    label: "The software is provided by <a href='https://webix.com' target='_blank'>https://webix.com</a>. All rights reserved (c)",
+    height: 40,
+    align: "center"
+  };
+  webix.ui({
+    id: "app",
+    rows: [topbar, {
+      cols: [side, {
+        view: "resizer"
+      }, main]
+    }, bottombar]
   });
+  $$("myform").bind($$("tableInfo"));
+  $$("myform").save();
+  $$("tableInfo").registerFilter($$("myTabbar"), {
+    columnId: "year",
+    compare: function compare(value, filter) {
+      var ALL = 1;
+      var OLD = 2;
+      var MODERN = 3;
+      var NEW = 4;
+      if (+filter === ALL) return value;
+      if (+filter === OLD) return value < 2000;
+      if (+filter === MODERN) return value >= 2000 && value < 2010;
+      if (+filter === NEW) return value >= 2010;
+    }
+  }, {
+    getValue: function getValue(node) {
+      return node.getValue();
+    },
+    setValue: function setValue(node, value) {
+      node.setValue(value);
+    }
+  }); //$$("user_chart").sync($$("myUsersList"));
+
+  $$("user_chart").sync(collectionUsers, function () {
+    this.group({
+      by: "country",
+      map: {
+        value: ["name", "count"]
+      }
+    });
+  });
+  $$("mylist").select("Dashboard"); // when loading this is the first display
 });
 },{}],"../../../../.npm-global/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -524,7 +582,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59532" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61467" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
